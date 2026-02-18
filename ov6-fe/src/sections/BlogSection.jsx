@@ -7,9 +7,9 @@ const BlogSection = () => {
   const { t } = useTranslation();
 
   const blogImages = [
-    '/images/mentality.png',
-    '/images/Capital_management.png',
-    '/images/Analysis.png'
+    '/OV6/images/mentality.png',
+    '/OV6/images/Capital_management.png',
+    '/OV6/images/Analysis.png'
   ];
 
   const containerVariants = {

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 const StrategySection = () => {
   const { t } = useTranslation();
   const [imageError, setImageError] = useState(false);
-  const strategyImage = '/images/strategy.jpg';
+  const strategyImage = '/OV6/images/strategy.jpg';
 
   const containerVariants = {
     hidden: { opacity: 0 },

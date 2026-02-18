@@ -11,7 +11,8 @@ const Navigation = ({ isScrolled, activeSection, isMenuOpen, setIsMenuOpen, scro
   const [imageError, setImageError] = useState(false);
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
-  const profileImage = '/images/profile.jpg';
+  // Update image path to include base URL for GitHub Pages
+  const profileImage = '/OV6/images/profile.jpg';
 
   return (
     <motion.nav
@@ -51,8 +52,8 @@ const Navigation = ({ isScrolled, activeSection, isMenuOpen, setIsMenuOpen, scro
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
                     className={`text-sm font-medium tracking-wider transition-all duration-300 hover:text-neon-blue ${activeSection === item.id
-                        ? 'text-neon-blue'
-                        : 'text-slate-600 dark:text-slate-300'
+                      ? 'text-neon-blue'
+                      : 'text-slate-600 dark:text-slate-300'
                       }`}
                   >
                     {t(`nav.${item.id}`)}
@@ -110,8 +111,8 @@ const Navigation = ({ isScrolled, activeSection, isMenuOpen, setIsMenuOpen, scro
                   setIsMenuOpen(false);
                 }}
                 className={`block w-full text-left px-4 py-3 rounded-lg text-base font-medium tracking-wide ${activeSection === item.id
-                    ? 'text-neon-blue bg-neon-blue/10 dark:bg-white/5'
-                    : 'text-slate-700 dark:text-gray-300 hover:text-neon-blue dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
+                  ? 'text-neon-blue bg-neon-blue/10 dark:bg-white/5'
+                  : 'text-slate-700 dark:text-gray-300 hover:text-neon-blue dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
                   }`}
               >
                 {t(`nav.${item.id}`)}
