@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { LineChart, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { getAssetPath } from '../utils/paths';
 
 const StrategySection = () => {
   const { t } = useTranslation();
   const [imageError, setImageError] = useState(false);
-  const strategyImage = '/OV6/images/strategy.jpg';
+  const strategyImage = getAssetPath('images/strategy.jpg');
 
   const containerVariants = {
     hidden: { opacity: 0 },

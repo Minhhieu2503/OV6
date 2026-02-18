@@ -2,14 +2,15 @@ import React from 'react';
 import { ChevronRight, Calendar, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { getAssetPath } from '../utils/paths';
 
 const BlogSection = () => {
   const { t } = useTranslation();
 
   const blogImages = [
-    '/OV6/images/mentality.png',
-    '/OV6/images/Capital_management.png',
-    '/OV6/images/Analysis.png'
+    getAssetPath('images/mentality.png'),
+    getAssetPath('images/Capital_management.png'),
+    getAssetPath('images/Analysis.png')
   ];
 
   const containerVariants = {

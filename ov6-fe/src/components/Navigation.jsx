@@ -6,13 +6,13 @@ import { useTranslation } from 'react-i18next';
 import { NAV_ITEMS } from '../constants/navigation';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTheme } from '../context/ThemeContext';
+import { getAssetPath } from '../utils/paths';
 
 const Navigation = ({ isScrolled, activeSection, isMenuOpen, setIsMenuOpen, scrollToSection }) => {
   const [imageError, setImageError] = useState(false);
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
-  // Update image path to include base URL for GitHub Pages
-  const profileImage = '/OV6/images/profile.jpg';
+  const profileImage = getAssetPath('images/profile.jpg');
 
   return (
     <motion.nav
