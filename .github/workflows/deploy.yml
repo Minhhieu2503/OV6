@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'ov6-fe/**'
+  workflow_dispatch:
 
 permissions:
   contents: write
