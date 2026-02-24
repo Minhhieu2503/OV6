@@ -15,13 +15,12 @@ const ContactSection = () => {
     { icon: Music, label: 'TikTok', value: CONTACT_INFO.tiktok.username, href: CONTACT_INFO.tiktok.url, color: 'pink', external: true },
   ];
 
-  // Platform-specific colors kept; generic → gold
   const colorClasses = {
-    gold: 'text-yellow-700 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-500/10 group-hover:bg-yellow-200 dark:group-hover:bg-yellow-500/20',
-    blue: 'text-blue-600   dark:text-blue-400   bg-blue-100   dark:bg-blue-500/10   group-hover:bg-blue-200   dark:group-hover:bg-blue-500/20',
-    purple: 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-500/10 group-hover:bg-purple-200 dark:group-hover:bg-purple-500/20',
-    red: 'text-red-600    dark:text-red-400    bg-red-100    dark:bg-red-500/10    group-hover:bg-red-200    dark:group-hover:bg-red-500/20',
-    pink: 'text-pink-600   dark:text-pink-400   bg-pink-100   dark:bg-pink-500/10   group-hover:bg-pink-200   dark:group-hover:bg-pink-500/20',
+    gold: 'text-yellow-400 bg-yellow-500/10 group-hover:bg-yellow-500/20',
+    blue: 'text-blue-400 bg-blue-500/10 group-hover:bg-blue-500/20',
+    purple: 'text-purple-400 bg-purple-500/10 group-hover:bg-purple-500/20',
+    red: 'text-red-400 bg-red-500/10 group-hover:bg-red-500/20',
+    pink: 'text-pink-400 bg-pink-500/10 group-hover:bg-pink-500/20',
   };
 
   const labelKeys = ['phone', 'zalo', 'email', 'youtube', 'tiktok'];
@@ -29,10 +28,10 @@ const ContactSection = () => {
   return (
     <section
       id="contact"
-      className="py-24 bg-[#f5f0e8] dark:bg-[#0d0d0d] relative overflow-hidden transition-colors duration-300"
+      className="py-24 bg-[#0d0d0d] relative overflow-hidden transition-colors duration-300"
     >
       {/* Ambient */}
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-yellow-400/8 dark:bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Heading */}
@@ -42,11 +41,11 @@ const ContactSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-900 dark:from-yellow-300 dark:to-yellow-500 uppercase tracking-widest mb-4">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 uppercase tracking-widest mb-4">
             {t('contact.title')}
           </h2>
           <div className="accent-bar mx-auto mb-6" />
-          <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
             {t('contact.subtitle')}
           </p>
         </motion.div>
@@ -58,11 +57,11 @@ const ContactSection = () => {
             viewport={{ once: true }}
             className="flex flex-col items-center"
           >
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+            <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
               <span className="w-8 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full" />
               {t('contact.connect_title')}
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 mb-10 leading-relaxed text-center max-w-2xl">
+            <p className="text-slate-400 mb-10 leading-relaxed text-center max-w-2xl">
               {t('contact.connect_desc')}
             </p>
 
@@ -78,13 +77,13 @@ const ContactSection = () => {
                     href={item.href}
                     {...linkProps}
                     whileHover={{ x: 5 }}
-                    className="flex items-center p-4 bg-white/70 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 backdrop-blur-md rounded-2xl border border-yellow-200 dark:border-yellow-500/10 hover:border-yellow-400 dark:hover:border-yellow-400/40 transition-all duration-300 group shadow-sm"
+                    className="flex items-center p-4 bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl border border-yellow-500/10 hover:border-yellow-400/40 transition-all duration-300 group shadow-sm"
                   >
                     <div className={`p-3 rounded-xl transition-all duration-300 ${colorClasses[item.color]}`}>
                       <IconComponent className="h-6 w-6" />
                     </div>
                     <div className="ml-5 flex-1 min-w-0 text-left">
-                      <div className="text-slate-900 dark:text-white font-bold text-base mb-0.5 group-hover:text-yellow-700 dark:group-hover:text-yellow-300 transition-colors">
+                      <div className="text-white font-bold text-base mb-0.5 group-hover:text-yellow-300 transition-colors">
                         {t(`contact.labels.${key}`)}
                       </div>
                       <div className="text-slate-500 text-sm truncate font-mono">{item.value}</div>

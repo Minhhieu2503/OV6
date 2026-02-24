@@ -4,21 +4,14 @@
 
 /* ── CSS variables for accent color ─────────────────────────────── */
 :root {
-  --accent: #B8860B;
-  /* dark gold for light mode */
-  --accent-glow: rgba(184, 134, 11, 0.35);
-}
-
-.dark {
   --accent: #F5C518;
-  /* bright gold for dark mode */
   --accent-glow: rgba(245, 197, 24, 0.35);
 }
 
 /* ── Base body ───────────────────────────────────────────────────── */
 @layer base {
   body {
-    @apply bg-[#fafaf8] text-slate-900 dark:bg-[#080808] dark:text-white font-sans antialiased transition-colors duration-300;
+    @apply bg-[#080808] text-white font-sans antialiased;
   }
 }
 

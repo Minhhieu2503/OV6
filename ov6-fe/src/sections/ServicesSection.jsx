@@ -20,10 +20,10 @@ const ServicesSection = ({ scrollToSection }) => {
   return (
     <section
       id="services"
-      className="py-24 bg-[#f5f0e8] dark:bg-[#0d0d0d] relative overflow-hidden transition-colors duration-300"
+      className="py-24 bg-[#0d0d0d] relative overflow-hidden transition-colors duration-300"
     >
       {/* Ambient */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-6xl max-h-[800px] bg-yellow-400/8 dark:bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-6xl max-h-[800px] bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Heading */}
@@ -33,7 +33,7 @@ const ServicesSection = ({ scrollToSection }) => {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-900 dark:from-yellow-300 dark:to-yellow-500 uppercase tracking-widest mb-4">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 uppercase tracking-widest mb-4">
             {t('services.title')}
           </h2>
           <div className="accent-bar mx-auto" />
@@ -55,27 +55,27 @@ const ServicesSection = ({ scrollToSection }) => {
                 key={idx}
                 variants={itemVariants}
                 whileHover={{ y: -10 }}
-                className="bg-white/70 dark:bg-white/5 backdrop-blur-md p-8 rounded-[24px] border border-yellow-200 dark:border-yellow-500/10 hover:border-yellow-400 dark:hover:border-yellow-400/40 transition-all duration-300 hover:shadow-xl dark:hover:shadow-[0_0_30px_rgba(245,197,24,0.08)] group relative overflow-hidden shadow-lg"
+                className="bg-white/5 backdrop-blur-md p-8 rounded-[24px] border border-yellow-500/10 hover:border-yellow-400/40 transition-all duration-300 hover:shadow-[0_0_30px_rgba(245,197,24,0.08)] group relative overflow-hidden shadow-lg"
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-yellow-50 to-transparent dark:from-yellow-500/5 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-b from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <div className="relative z-10">
-                  <div className="bg-yellow-100 dark:bg-yellow-500/10 p-4 rounded-2xl w-fit mb-6 group-hover:bg-yellow-200 dark:group-hover:bg-yellow-500/20 transition-colors duration-300 border border-yellow-300 dark:border-yellow-500/20">
-                    <IconComponent className="h-8 w-8 text-yellow-700 dark:text-yellow-400" />
+                  <div className="bg-yellow-500/10 p-4 rounded-2xl w-fit mb-6 group-hover:bg-yellow-500/20 transition-colors duration-300 border border-yellow-500/20">
+                    <IconComponent className="h-8 w-8 text-yellow-400" />
                   </div>
 
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-yellow-700 dark:group-hover:text-yellow-300 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors duration-300">
                     {t(`services.items.${key}.title`)}
                   </h3>
-                  <p className="text-slate-500 dark:text-slate-400 mb-8 text-sm font-medium tracking-wide uppercase">
+                  <p className="text-slate-400 mb-8 text-sm font-medium tracking-wide uppercase">
                     {t(`services.items.${key}.audience`)}
                   </p>
 
                   <ul className="space-y-4 mb-8">
                     {[0, 1, 2, 3].map((i) => (
                       <li key={i} className="flex items-start">
-                        <ChevronRight className="h-5 w-5 text-yellow-500 dark:text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
-                        <span className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+                        <ChevronRight className="h-5 w-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
+                        <span className="text-slate-300 text-sm leading-relaxed">
                           {t(`services.items.${key}.includes.${i}`)}
                         </span>
                       </li>
@@ -84,7 +84,7 @@ const ServicesSection = ({ scrollToSection }) => {
 
                   <button
                     onClick={() => scrollToSection('contact')}
-                    className="w-full py-4 bg-transparent border border-yellow-400 dark:border-yellow-500/30 hover:border-yellow-500 dark:hover:border-yellow-400/60 hover:bg-yellow-50 dark:hover:bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 font-bold rounded-xl transition-all duration-300"
+                    className="w-full py-4 bg-transparent border border-yellow-500/30 hover:border-yellow-400/60 hover:bg-yellow-500/10 text-yellow-400 font-bold rounded-xl transition-all duration-300"
                   >
                     {t('services.cta')}
                   </button>
