@@ -1,18 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 
-// ── Binance symbols ──────────────────────────────────────────────────
-const BINANCE_SYMBOLS = [
-    { symbol: 'BTCUSDT', label: 'BTC/USD' },
-    { symbol: 'ETHUSDT', label: 'ETH/USD' },
-    { symbol: 'XAUUSDT', label: 'XAU/USD' },
-];
-
-// ── Forex pairs ──────────────────────────────────────────────────────
-const FOREX_PAIRS = [
-    { from: 'EUR', to: 'USD', label: 'EUR/USD' },
-    { from: 'GBP', to: 'USD', label: 'GBP/USD' },
-    { from: 'USD', to: 'JPY', label: 'USD/JPY' },
-];
+// ── CORS proxy for environments where direct access is DNS-blocked ───
+const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
 
 const fmt = (num, decimals = 2) => {
     const n = parseFloat(num);
@@ -20,37 +9,95 @@ const fmt = (num, decimals = 2) => {
     return n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 };
 
-// ── Fetch crypto from Binance (CORS-enabled) ─────────────────────────
-async function fetchBinance() {
-    const results = await Promise.all(
-        BINANCE_SYMBOLS.map(async ({ symbol, label }) => {
-            try {
-                const res = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`);
-                if (!res.ok) return { label, price: '—', change_p: '—', up: null };
-                const d = await res.json();
-                const price = parseFloat(d.lastPrice);
-                const changePct = parseFloat(d.priceChangePercent);
-                return {
-                    label,
-                    price: fmt(price),
-                    change_p: `${changePct >= 0 ? '+' : ''}${changePct.toFixed(2)}%`,
-                    up: changePct >= 0,
-                };
-            } catch {
-                return { label, price: '—', change_p: '—', up: null };
-            }
-        })
-    );
-    return results;
+// ── Smart fetch: tries direct first, falls back to CORS proxy ────────
+async function smartFetch(url) {
+    try {
+        const res = await fetch(url);
+        if (res.ok) return res;
+    } catch { /* direct failed, try proxy */ }
+
+    // Fallback: use CORS proxy
+    const proxied = CORS_PROXY + encodeURIComponent(url);
+    return fetch(proxied);
 }
 
-// ── Fetch forex from ExchangeRate API (CORS-enabled) ─────────────────
+// ── Fetch crypto from CoinGecko (no API key needed) ──────────────────
+async function fetchCrypto() {
+    try {
+        const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true';
+        const res = await smartFetch(url);
+        if (!res.ok) throw new Error('CoinGecko error');
+        const data = await res.json();
+
+        const items = [];
+
+        if (data.bitcoin) {
+            const change = data.bitcoin.usd_24h_change || 0;
+            items.push({
+                label: 'BTC/USD',
+                price: fmt(data.bitcoin.usd),
+                change_p: `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`,
+                up: change >= 0,
+            });
+        }
+
+        if (data.ethereum) {
+            const change = data.ethereum.usd_24h_change || 0;
+            items.push({
+                label: 'ETH/USD',
+                price: fmt(data.ethereum.usd),
+                change_p: `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`,
+                up: change >= 0,
+            });
+        }
+
+        return items;
+    } catch (err) {
+        console.warn('[fetchCrypto]', err.message);
+        return [
+            { label: 'BTC/USD', price: '—', change_p: '—', up: null },
+            { label: 'ETH/USD', price: '—', change_p: '—', up: null },
+        ];
+    }
+}
+
+// ── Fetch gold from CoinGecko ───────────────────────────────────────
+async function fetchGold() {
+    try {
+        const url = 'https://api.coingecko.com/api/v3/simple/price?ids=tether-gold&vs_currencies=usd&include_24hr_change=true';
+        const res = await smartFetch(url);
+        if (!res.ok) throw new Error('Gold fetch error');
+        const data = await res.json();
+        if (data['tether-gold']) {
+            const g = data['tether-gold'];
+            const change = g.usd_24h_change || 0;
+            return [{
+                label: 'XAU/USD',
+                price: fmt(g.usd),
+                change_p: `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`,
+                up: change >= 0,
+            }];
+        }
+        return [{ label: 'XAU/USD', price: '—', change_p: '—', up: null }];
+    } catch {
+        return [{ label: 'XAU/USD', price: '—', change_p: '—', up: null }];
+    }
+}
+
+// ── Fetch forex from ExchangeRate API ────────────────────────────────
+const FOREX_PAIRS = [
+    { from: 'EUR', to: 'USD', label: 'EUR/USD' },
+    { from: 'GBP', to: 'USD', label: 'GBP/USD' },
+    { from: 'USD', to: 'JPY', label: 'USD/JPY' },
+];
+
 let prevForexRates = null;
 
 async function fetchForex() {
     try {
-        const res = await fetch('https://open.er-api.com/v6/latest/USD');
-        if (!res.ok) throw new Error('ExchangeRate API error');
+        const url = 'https://open.er-api.com/v6/latest/USD';
+        const res = await smartFetch(url);
+        if (!res.ok) throw new Error('Forex API error');
         const json = await res.json();
         const rates = json.rates;
 
@@ -70,14 +117,12 @@ async function fetchForex() {
                 changePct = ((price - prevForexRates[key]) / prevForexRates[key] * 100);
                 up = changePct >= 0;
             }
-
             if (!prevForexRates) prevForexRates = {};
             prevForexRates[key] = price;
 
-            const decimals = to === 'JPY' ? 4 : 4;
             return {
                 label,
-                price: fmt(price, decimals),
+                price: fmt(price, 4),
                 change_p: changePct !== null ? `${changePct >= 0 ? '+' : ''}${changePct.toFixed(2)}%` : '~0.00%',
                 up: up ?? true,
             };
@@ -97,12 +142,12 @@ const MarketTicker = () => {
 
     const loadPrices = useCallback(async () => {
         try {
-            const [binanceData, forexData] = await Promise.all([
-                fetchBinance(),
+            const [cryptoData, goldData, forexData] = await Promise.all([
+                fetchCrypto(),
+                fetchGold(),
                 fetchForex(),
             ]);
-            const data = [...binanceData, ...forexData];
-            // Check if we got at least some valid data
+            const data = [...cryptoData, ...goldData, ...forexData];
             const hasData = data.some(d => d.price !== '—');
             if (!hasData) throw new Error('No data available');
             setPrices(data);
@@ -121,7 +166,6 @@ const MarketTicker = () => {
         return () => clearInterval(intervalRef.current);
     }, [loadPrices]);
 
-    // Duplicate for seamless loop
     const items = prices.length > 0 ? [...prices, ...prices] : [];
 
     return (
@@ -146,11 +190,9 @@ const MarketTicker = () => {
                 style={{ height: 44, overflow: 'hidden', position: 'relative' }}
                 className="w-full bg-black/95 border-b border-yellow-500/25"
             >
-                {/* Fade edges */}
                 <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
                 <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
 
-                {/* Loading state */}
                 {loading && (
                     <div className="flex items-center justify-center h-full gap-1.5">
                         <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/60 animate-bounce" style={{ animationDelay: '0ms' }} />
@@ -159,14 +201,12 @@ const MarketTicker = () => {
                     </div>
                 )}
 
-                {/* Error state */}
                 {!loading && error && (
                     <div className="flex items-center justify-center h-full text-red-400/70 text-xs tracking-widest">
                         {error}
                     </div>
                 )}
 
-                {/* Scrolling ticker */}
                 {!loading && !error && (
                     <div className="ov6-ticker-track h-full">
                         {items.map((item, i) => (
