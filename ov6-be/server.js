@@ -6,6 +6,7 @@ import contactRoutes from './routes/contactRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import servicesRoutes from './routes/servicesRoutes.js';
 import resultsRoutes from './routes/resultsRoutes.js';
+import marketRoutes from './routes/marketRoutes.js';
 
 dotenv.config();
 
@@ -22,8 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+  res.json({
+    status: 'OK',
     message: 'OV6 API is running',
     timestamp: new Date().toISOString()
   });
@@ -34,6 +35,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/services', servicesRoutes);
 app.use('/api/results', resultsRoutes);
+app.use('/api/market', marketRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Menu, X, TrendingUp, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -19,80 +18,92 @@ const Navigation = ({ isScrolled, activeSection, isMenuOpen, setIsMenuOpen, scro
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled
-        ? 'bg-white/80 dark:bg-rich-black/80 backdrop-blur-md border-b border-slate-200 dark:border-white/5 py-4 shadow-sm dark:shadow-none'
-        : 'bg-transparent py-6'
-        }`}
+      className={`w-full transition-all duration-300
+        bg-white/92 dark:bg-[#080808]/92 backdrop-blur-md
+        border-b border-yellow-200/60 dark:border-yellow-500/10
+        shadow-sm dark:shadow-none
+        ${isScrolled ? 'py-4' : 'py-6'}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          <div className="flex items-center group cursor-pointer space-x-4" onClick={() => scrollToSection('home')}>
+
+          {/* Logo */}
+          <div
+            className="flex items-center group cursor-pointer space-x-3"
+            onClick={() => scrollToSection('home')}
+          >
             <div className="relative">
               {!imageError ? (
                 <img
                   src={profileImage}
                   alt="OV6 Logo"
-                  className="h-10 w-10 rounded-full object-cover border-2 border-neon-blue/20 group-hover:border-neon-blue transition-all duration-300"
+                  className="h-10 w-10 rounded-full object-cover border-2 border-yellow-400/30 group-hover:border-yellow-400 transition-all duration-300"
                   onError={() => setImageError(true)}
                 />
               ) : (
-                <div className="h-10 w-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center">
-                  <TrendingUp className="h-5 w-5 text-white" />
+                <div className="h-10 w-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
+                  <TrendingUp className="h-5 w-5 text-black" />
                 </div>
               )}
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-white dark:to-neon-blue bg-clip-text text-transparent">OV6</span>
+            <span className="text-2xl font-bold bg-gradient-to-r from-yellow-600 to-yellow-800 dark:from-yellow-300 dark:to-yellow-500 bg-clip-text text-transparent">
+              OV6
+            </span>
           </div>
 
+          {/* Desktop nav */}
           <div className="hidden md:flex items-center space-x-8">
             <div className="flex items-baseline space-x-6">
-              {NAV_ITEMS.map((item) => (
+              {NAV_ITEMS.map((item) =>
                 item.id !== 'contact' && (
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`text-sm font-medium tracking-wider transition-all duration-300 hover:text-neon-blue ${activeSection === item.id
-                      ? 'text-neon-blue'
-                      : 'text-slate-600 dark:text-slate-300'
+                    className={`text-sm font-medium tracking-wider transition-all duration-300
+                      ${activeSection === item.id
+                        ? 'text-yellow-600 dark:text-yellow-400'
+                        : 'text-slate-600 dark:text-slate-300 hover:text-yellow-600 dark:hover:text-yellow-400'
                       }`}
                   >
                     {t(`nav.${item.id}`)}
                   </button>
                 )
-              ))}
+              )}
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              {/* Theme toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                className="p-2 rounded-full text-slate-600 dark:text-yellow-400/70
+                  hover:bg-yellow-50 dark:hover:bg-yellow-500/10
+                  hover:text-yellow-600 dark:hover:text-yellow-300
+                  border border-transparent hover:border-yellow-300 dark:hover:border-yellow-500/30
+                  transition-all duration-300"
                 aria-label="Toggle Theme"
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                {theme === 'dark'
+                  ? <Sun className="h-5 w-5" />
+                  : <Moon className="h-5 w-5" />
+                }
               </button>
-
               <LanguageSwitcher />
-
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="bg-slate-900/5 dark:bg-white/5 backdrop-blur-md border border-slate-200 dark:border-white/20 text-slate-900 dark:text-white px-6 py-2.5 rounded-full text-sm font-medium tracking-wider hover:bg-neon-blue/10 hover:border-neon-blue/50 hover:text-neon-blue transition-all duration-300"
-              >
-                {t('nav.contact')}
-              </button>
             </div>
           </div>
 
-          <div className="md:hidden flex items-center gap-4">
+          {/* Mobile controls */}
+          <div className="md:hidden flex items-center gap-3">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+              className="p-2 rounded-full text-slate-600 dark:text-yellow-400/70 hover:bg-yellow-50 dark:hover:bg-yellow-500/10 transition-colors"
             >
               {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </button>
             <LanguageSwitcher />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-slate-700 dark:text-gray-300 hover:text-neon-blue dark:hover:text-white transition-colors"
+              className="text-slate-700 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -100,9 +111,10 @@ const Navigation = ({ isScrolled, activeSection, isMenuOpen, setIsMenuOpen, scro
         </div>
       </div>
 
+      {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white/95 dark:bg-rich-black/95 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 shadow-xl">
-          <div className="px-4 pt-4 pb-6 space-y-2">
+        <div className="md:hidden bg-white/98 dark:bg-[#080808]/98 backdrop-blur-xl border-b border-yellow-200/50 dark:border-yellow-500/10 shadow-xl">
+          <div className="px-4 pt-4 pb-6 space-y-1">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.id}
@@ -110,9 +122,10 @@ const Navigation = ({ isScrolled, activeSection, isMenuOpen, setIsMenuOpen, scro
                   scrollToSection(item.id);
                   setIsMenuOpen(false);
                 }}
-                className={`block w-full text-left px-4 py-3 rounded-lg text-base font-medium tracking-wide ${activeSection === item.id
-                  ? 'text-neon-blue bg-neon-blue/10 dark:bg-white/5'
-                  : 'text-slate-700 dark:text-gray-300 hover:text-neon-blue dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
+                className={`block w-full text-left px-4 py-3 rounded-lg text-base font-medium tracking-wide transition-all duration-200
+                  ${activeSection === item.id
+                    ? 'text-yellow-700 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-500/10 border border-yellow-200 dark:border-yellow-500/20'
+                    : 'text-slate-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-500/5'
                   }`}
               >
                 {t(`nav.${item.id}`)}

@@ -1,123 +1,171 @@
-
 import React from 'react';
-import { Mail, Youtube } from 'lucide-react';
+import { Youtube, TrendingUp, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { HOME_FEATURES, HOME_STATS } from '../constants/homeData';
+import { getAssetPath } from '../utils/paths';
 
+
+
+// ── Animation variants ─────────────────────────────────────────────────────────
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (delay = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.7, delay, ease: 'easeOut' },
+  }),
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.85 },
+  visible: (delay = 0) => ({
+    opacity: 1, scale: 1,
+    transition: { duration: 0.6, delay, ease: 'easeOut' },
+  }),
+};
+
+// ── Main Component ─────────────────────────────────────────────────────────────
 const HomeSection = ({ scrollToSection }) => {
   const { t } = useTranslation();
+  const bgImage = getAssetPath('images/strategy.jpg');
+  const featureKeys = ['discipline', 'risk_management', 'psychology'];
+  const statKeys = ['exp', 'markets', 'students'];
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden bg-white dark:bg-rich-black transition-colors duration-300">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-sky-200/40 dark:bg-neon-blue/20 rounded-full blur-[100px]"
-        ></motion.div>
-        <motion.div
-          animate={{ scale: [1, 1.3, 1], opacity: [0.05, 0.15, 0.05] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-purple-200/40 dark:bg-purple-600/20 rounded-full blur-[100px]"
-        ></motion.div>
+    <section id="home" className="min-h-screen flex flex-col relative overflow-hidden bg-[#080808]">
+
+      {/* ── Background ── */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={bgImage}
+          alt="Trading Background"
+          className="w-full h-full object-cover object-center"
+          style={{ filter: 'grayscale(60%) brightness(0.25) contrast(1.1)' }}
+        />
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full bg-yellow-500/10 blur-[120px] pointer-events-none" />
+        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-yellow-600/8 blur-[100px] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-[#080808]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 w-full">
-        <div className="text-center max-w-5xl mx-auto">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white mb-8 leading-tight tracking-tight transition-colors duration-300"
+      {/* Animated orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <motion.div
+          animate={{ scale: [1, 1.25, 1], opacity: [0.08, 0.18, 0.08] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-yellow-400/20 blur-[80px]"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.3, 1], opacity: [0.05, 0.12, 0.05] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+          className="absolute bottom-1/3 left-1/4 w-[350px] h-[350px] rounded-full bg-yellow-600/15 blur-[80px]"
+        />
+      </div>
+
+      {/* ── Hero Content ── */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-12 pb-24">
+        <div className="max-w-6xl mx-auto w-full text-center">
+
+          {/* Badge */}
+          <motion.div
+            variants={fadeUp} initial="hidden" animate="visible" custom={0.1}
+            className="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full px-4 py-1.5 mb-8"
           >
-            <span dangerouslySetInnerHTML={{ __html: t('hero.title').replace('<br />', ' ') }} />
+            <TrendingUp className="w-4 h-4 text-yellow-400" />
+            <span className="text-yellow-400 text-sm font-semibold tracking-wide uppercase">
+              Professional Trading Education
+            </span>
+          </motion.div>
+
+          {/* Heading */}
+          <motion.h1
+            variants={fadeUp} initial="hidden" animate="visible" custom={0.2}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight mb-6"
+          >
+            <span className="text-white">Helping Traders</span>
+            <br />
+            <span className="bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-600 bg-clip-text text-transparent gold-glow-text">
+              Trade With Discipline
+            </span>
           </motion.h1>
 
+          {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed font-normal transition-colors duration-300"
+            variants={fadeUp} initial="hidden" animate="visible" custom={0.35}
+            className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-12"
           >
             {t('hero.subtitle')}
           </motion.p>
-
+          {/* Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+            variants={fadeUp} initial="hidden" animate="visible" custom={0.6}
+            className="grid grid-cols-3 gap-4 sm:gap-10 max-w-2xl mx-auto mb-24 border-t border-yellow-500/15 pt-10"
           >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => scrollToSection('contact')}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-neon-blue dark:to-neon-blue text-white dark:text-rich-black font-bold text-lg rounded-full transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl dark:shadow-[0_0_20px_rgba(0,210,255,0.4)] dark:hover:shadow-[0_0_30px_rgba(0,210,255,0.6)]"
-            >
-              <Mail className="mr-2 h-5 w-5" />
-              {t('hero.cta_contact')}
-            </motion.button>
-            <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              href="https://www.youtube.com/@ov6forextrading"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 bg-white/50 dark:bg-transparent border border-slate-200 dark:border-white/20 hover:border-slate-400 dark:hover:border-white/50 hover:bg-white/80 dark:hover:bg-white/5 text-slate-900 dark:text-white font-semibold text-lg rounded-full transition-all duration-300 flex items-center justify-center backdrop-blur-sm"
-            >
-              <Youtube className="mr-2 h-5 w-5 text-red-500" />
-              {t('hero.cta_youtube')}
-            </motion.a>
-          </motion.div>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8 mt-24">
-          {HOME_FEATURES.map((item, idx) => {
-            const IconComponent = item.icon;
-            const featureKeys = ["discipline", "risk_management", "psychology"];
-            const key = featureKeys[idx];
-
-            return (
+            {HOME_STATS.map((stat, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                variants={scaleIn}
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.2 }}
-                whileHover={{ y: -10 }}
-                className="bg-white/60 dark:bg-rich-black/40 backdrop-blur-xl p-8 rounded-[20px] border border-slate-200 dark:border-white/5 hover:border-blue-400 dark:hover:border-neon-blue/50 transition-all duration-300 group shadow-lg dark:shadow-lg hover:shadow-xl dark:hover:shadow-neon-blue/10"
+                custom={idx * 0.15 + 0.1}
+                className="text-center group"
               >
-                <div className="bg-blue-50 dark:bg-white/5 rounded-2xl p-4 w-fit mb-6 group-hover:bg-blue-100 dark:group-hover:bg-neon-blue/10 transition-colors duration-300">
-                  <IconComponent className="h-8 w-8 text-blue-600 dark:text-neon-blue" />
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-neon-blue transition-colors duration-300">{t(`features.${key}.title`)}</h3>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base">{t(`features.${key}.desc`)}</p>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-12 mt-24 text-center border-t border-slate-200 dark:border-white/5 pt-16">
-          {HOME_STATS.map((stat, idx) => {
-            const statKeys = ["exp", "markets", "students"];
-            return (
-              <motion.div
-                key={idx}
-                initial={{ scale: 0.5, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.2 + 0.5 }}
-                className="group"
-              >
-                <div className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-cyan-500 dark:text-white dark:bg-none mb-2 group-hover:dark:text-neon-blue transition-colors duration-300">
+                <div className="text-4xl sm:text-5xl font-extrabold text-yellow-400 mb-1 group-hover:drop-shadow-[0_0_16px_rgba(245,197,24,0.7)] transition-all duration-300">
                   {stat.num}
                 </div>
-                <div className="text-slate-500 dark:text-slate-500 font-medium text-lg uppercase tracking-wider">{t(`hero.stats.${statKeys[idx]}`)}</div>
+                <div className="text-gray-400 text-xs sm:text-sm uppercase tracking-widest font-medium">
+                  {t(`hero.stats.${statKeys[idx]}`)}
+                </div>
               </motion.div>
-            )
-          })}
+            ))}
+          </motion.div>
+
+          {/* Feature Cards */}
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {HOME_FEATURES.map((item, idx) => {
+              const IconComponent = item.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx * 0.15}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="bg-white/5 backdrop-blur-md border border-white/10 hover:border-yellow-500/50 rounded-2xl p-6 sm:p-8 text-left transition-all duration-300 group cursor-default"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center mb-5 group-hover:bg-yellow-500/20 group-hover:border-yellow-500/40 transition-all duration-300">
+                    <IconComponent className="w-6 h-6 text-yellow-400" />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-yellow-300 transition-colors duration-300">
+                    {t(`features.${featureKeys[idx]}.title`)}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
+                    {t(`features.${featureKeys[idx]}.desc`)}
+                  </p>
+                  <div className="mt-4 h-0.5 w-0 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full group-hover:w-full transition-all duration-500" />
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Scroll hint */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="mt-16 flex flex-col items-center gap-2 text-gray-500"
+          >
+            <span className="text-xs uppercase tracking-widest">Scroll to explore</span>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <ChevronDown className="w-5 h-5 text-yellow-500/60" />
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

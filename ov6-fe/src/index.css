@@ -2,52 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── CSS variables for accent color ─────────────────────────────── */
+:root {
+  --accent: #B8860B;
+  /* dark gold for light mode */
+  --accent-glow: rgba(184, 134, 11, 0.35);
+}
+
+.dark {
+  --accent: #F5C518;
+  /* bright gold for dark mode */
+  --accent-glow: rgba(245, 197, 24, 0.35);
+}
+
+/* ── Base body ───────────────────────────────────────────────────── */
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 dark:bg-rich-black dark:text-white font-sans antialiased transition-colors duration-300;
-    background-image:
-      radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.1) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(120, 0, 255, 0.1) 0%, transparent 40%);
+    @apply bg-[#fafaf8] text-slate-900 dark:bg-[#080808] dark:text-white font-sans antialiased transition-colors duration-300;
   }
 }
 
-/* Custom animations */
-@keyframes gradient {
-
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient 3s ease infinite;
-}
-
-/* Smooth scrolling */
+/* ── Smooth scrolling ────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+/* ── Scrollbar — gold theme ──────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #111;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #06b6d4, #3b82f6, #8b5cf6);
-  border-radius: 5px;
+  background: linear-gradient(180deg, #F5C518, #B8860B);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #0891b2, #2563eb, #7c3aed);
+  background: linear-gradient(180deg, #FFD700, #F5C518);
+}
+
+/* ── Utility: gold glow text ─────────────────────────────────────── */
+.gold-glow-text {
+  text-shadow: 0 0 20px rgba(245, 197, 24, 0.55), 0 0 40px rgba(245, 197, 24, 0.25);
+}
+
+/* ── Utility: gold glow button ───────────────────────────────────── */
+.gold-glow-btn {
+  box-shadow: 0 0 20px rgba(245, 197, 24, 0.4), 0 0 40px rgba(245, 197, 24, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.gold-glow-btn:hover {
+  box-shadow: 0 0 35px rgba(245, 197, 24, 0.7), 0 0 70px rgba(245, 197, 24, 0.4);
+}
+
+/* ── Reusable section heading accent bar ─────────────────────────── */
+.accent-bar {
+  height: 3px;
+  width: 80px;
+  background: linear-gradient(90deg, #F5C518, #B8860B);
+  border-radius: 9999px;
+  box-shadow: 0 0 10px rgba(245, 197, 24, 0.5);
 }

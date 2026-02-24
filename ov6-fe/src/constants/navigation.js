@@ -3,8 +3,7 @@ export const NAV_ITEMS = [
   { id: 'strategy', label: 'Chiến lược' },
   { id: 'results', label: 'Kết quả' },
   { id: 'services', label: 'Dịch vụ' },
-  { id: 'blog', label: 'Blog' },
-  { id: 'contact', label: 'Liên hệ' }
+  { id: 'blog', label: 'Blog' }
 ];
 
 export const CONTACT_INFO = {
