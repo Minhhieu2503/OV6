@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { HOME_FEATURES, HOME_STATS } from '../constants/homeData';
 import { getAssetPath } from '../utils/paths';
-
+import AnimatedCandlestickChart from '../components/AnimatedCandlestickChart';
+import AnimatedCounter from '../components/AnimatedCounter';
 
 
 // ── Animation variants ─────────────────────────────────────────────────────────
@@ -27,7 +28,6 @@ const scaleIn = {
 // ── Main Component ─────────────────────────────────────────────────────────────
 const HomeSection = ({ scrollToSection }) => {
   const { t } = useTranslation();
-  const bgImage = getAssetPath('images/strategy.jpg');
   const featureKeys = ['discipline', 'risk_management', 'psychology'];
   const statKeys = ['exp', 'markets', 'students'];
 
@@ -36,16 +36,10 @@ const HomeSection = ({ scrollToSection }) => {
 
       {/* ── Background ── */}
       <div className="absolute inset-0 z-0">
-        <img
-          src={bgImage}
-          alt="Trading Background"
-          className="w-full h-full object-cover object-center"
-          style={{ filter: 'grayscale(60%) brightness(0.25) contrast(1.1)' }}
-        />
-        <div className="absolute inset-0 bg-black/70" />
+        <AnimatedCandlestickChart />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-black/40 to-[#080808]" />
         <div className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full bg-yellow-500/10 blur-[120px] pointer-events-none" />
-        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-yellow-600/8 blur-[100px] pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-[#080808]" />
+        <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-amber-600/10 blur-[100px] pointer-events-none" />
       </div>
 
       {/* Animated orbs */}
@@ -63,7 +57,7 @@ const HomeSection = ({ scrollToSection }) => {
       </div>
 
       {/* ── Hero Content ── */}
-      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-12 pb-24">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-32 pb-24 min-h-screen">
         <div className="max-w-6xl mx-auto w-full text-center">
 
           {/* Badge */}
@@ -80,7 +74,7 @@ const HomeSection = ({ scrollToSection }) => {
           {/* Heading */}
           <motion.h1
             variants={fadeUp} initial="hidden" animate="visible" custom={0.2}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight mb-6"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight mb-6 max-w-5xl mx-auto"
           >
             <span className="text-white">Helping Traders</span>
             <br />
@@ -101,24 +95,27 @@ const HomeSection = ({ scrollToSection }) => {
             variants={fadeUp} initial="hidden" animate="visible" custom={0.6}
             className="grid grid-cols-3 gap-4 sm:gap-10 max-w-2xl mx-auto mb-24 border-t border-yellow-500/15 pt-10"
           >
-            {HOME_STATS.map((stat, idx) => (
-              <motion.div
-                key={idx}
-                variants={scaleIn}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                custom={idx * 0.15 + 0.1}
-                className="text-center group"
-              >
-                <div className="text-4xl sm:text-5xl font-extrabold text-yellow-400 mb-1 group-hover:drop-shadow-[0_0_16px_rgba(245,197,24,0.7)] transition-all duration-300">
-                  {stat.num}
-                </div>
-                <div className="text-gray-400 text-xs sm:text-sm uppercase tracking-widest font-medium">
-                  {t(`hero.stats.${statKeys[idx]}`)}
-                </div>
-              </motion.div>
-            ))}
+            {HOME_STATS.map((stat, idx) => {
+              const hasPlus = stat.num.includes('+');
+              return (
+                <motion.div
+                  key={idx}
+                  variants={scaleIn}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={idx * 0.15 + 0.1}
+                  className="text-center group"
+                >
+                  <div className="text-4xl sm:text-5xl font-extrabold text-yellow-400 mb-1 group-hover:drop-shadow-[0_0_16px_rgba(245,197,24,0.7)] transition-all duration-300">
+                    <AnimatedCounter value={stat.num} suffix={hasPlus ? '+' : ''} duration={2000 + (idx * 500)} />
+                  </div>
+                  <div className="text-gray-400 text-xs sm:text-sm uppercase tracking-widest font-medium">
+                    {t(`hero.stats.${statKeys[idx]}`)}
+                  </div>
+                </motion.div>
+              );
+            })}
           </motion.div>
 
           {/* Feature Cards */}

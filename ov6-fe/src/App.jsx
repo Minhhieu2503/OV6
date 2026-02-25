@@ -11,6 +11,8 @@ import { useNavigation } from './hooks/useNavigation';
 import AnimatedSection from './components/AnimatedSection';
 import MarketTicker from './components/MarketTicker';
 
+import GlowCursor from './components/GlowCursor';
+
 const App = () => {
   const isScrolled = useScroll();
   const { activeSection, isMenuOpen, setIsMenuOpen, scrollToSection } = useNavigation();
@@ -22,7 +24,9 @@ const App = () => {
   }, []);
 
   return (
-    <div className="bg-gray-900 text-white">
+    <div className="bg-[#080808] text-white min-h-screen relative overflow-hidden">
+      <GlowCursor />
+
       {/* Fixed header group: nav + ticker in one block */}
       <div className="fixed top-0 left-0 right-0 z-50">
         <Navigation
@@ -36,7 +40,7 @@ const App = () => {
       </div>
 
       {/* Main content — padded to clear nav (~89px) + ticker (44px) = 133px */}
-      <div className="pt-[133px]">
+      <div className="pt-[133px] pb-[44px]"> {/* Added pb for bottom ticker */}
         <AnimatedSection>
           <HomeSection scrollToSection={scrollToSection} />
         </AnimatedSection>
@@ -54,6 +58,11 @@ const App = () => {
           <BlogSection />
         </AnimatedSection>
         <Footer scrollToSection={scrollToSection} />
+      </div>
+
+      {/* Fixed bottom ticker */}
+      <div className="fixed bottom-0 left-0 right-0 z-50">
+        <MarketTicker />
       </div>
     </div>
   );

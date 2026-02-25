@@ -1,9 +1,9 @@
-import { Users, Send, BookOpen } from 'lucide-react';
+import { Crosshair, Radio, GraduationCap } from 'lucide-react';
 
 export const SERVICES = [
   {
     title: 'Mentoring 1-1',
-    icon: Users,
+    icon: Crosshair,
     audience: 'Dành cho trader nghiêm túc muốn phát triển bền vững',
     includes: [
       'Phân tích phong cách trading cá nhân',
@@ -15,7 +15,7 @@ export const SERVICES = [
   },
   {
     title: 'Nhóm Signal',
-    icon: Send,
+    icon: Radio,
     audience: 'Dành cho trader muốn học hỏi và tham khảo ý kiến',
     includes: [
       'Phân tích thị trường hàng ngày',
@@ -27,7 +27,7 @@ export const SERVICES = [
   },
   {
     title: 'Khóa Học Trading',
-    icon: BookOpen,
+    icon: GraduationCap,
     audience: 'Dành cho người mới bắt đầu và trader cần hệ thống lại kiến thức',
     includes: [
       'Từ cơ bản đến nâng cao',
