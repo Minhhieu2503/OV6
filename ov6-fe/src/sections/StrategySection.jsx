@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { getAssetPath } from '../utils/paths';
 
+import MockTradingViewChart from '../components/MockTradingViewChart';
+
 const StrategySection = () => {
   const { t } = useTranslation();
-  const [imageError, setImageError] = useState(false);
-  const strategyImage = getAssetPath('images/strategy.jpg');
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -21,7 +21,7 @@ const StrategySection = () => {
   return (
     <section
       id="strategy"
-      className="py-24 bg-[#0d0d0d] relative overflow-hidden transition-colors duration-300"
+      className="py-24 bg-[#080808] relative overflow-hidden transition-colors duration-300"
     >
       {/* Ambient background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -85,20 +85,9 @@ const StrategySection = () => {
             className="relative group"
           >
             <div className="absolute -inset-1 bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-700 rounded-2xl blur opacity-25 group-hover:opacity-60 transition duration-500" />
-            <div className="relative rounded-2xl overflow-hidden border border-yellow-500/20 group-hover:border-yellow-400/50 transition-all duration-500 shadow-2xl">
-              <div className="aspect-video overflow-hidden bg-slate-900">
-                {!imageError ? (
-                  <img
-                    src={strategyImage}
-                    alt="Trading Strategy"
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
-                    onError={() => setImageError(true)}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <LineChart className="h-20 w-20 text-yellow-500/40" />
-                  </div>
-                )}
+            <div className="relative rounded-3xl overflow-hidden border border-yellow-500/20 group-hover:border-yellow-400/50 transition-all duration-500 shadow-2xl">
+              <div className="aspect-video overflow-hidden bg-[#111113] relative">
+                <MockTradingViewChart />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
@@ -126,7 +115,7 @@ const StrategySection = () => {
                 key={idx}
                 variants={itemVariants}
                 whileHover={{ y: -10 }}
-                className="bg-white/5 backdrop-blur-md border border-yellow-500/15 p-8 rounded-2xl text-center hover:bg-white/10 hover:border-yellow-400/40 transition-all duration-300 shadow-lg group relative overflow-hidden"
+                className="bg-white/5 backdrop-blur-lg border border-yellow-500/10 p-8 rounded-[32px] text-center hover:bg-white/10 hover:border-yellow-400/50 transition-all duration-300 shadow-2xl group relative overflow-hidden"
               >
                 <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-yellow-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="text-5xl font-extrabold bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent mb-4 group-hover:scale-110 transition-transform duration-300 inline-block">

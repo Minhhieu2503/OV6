@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 // ── CORS proxy for environments where direct access is DNS-blocked ───
-const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+// Use a reliable proxy that doesn't restrict via origin block
+const CORS_PROXY = 'https://corsproxy.io/?';
 
 const fmt = (num, decimals = 2) => {
     const n = parseFloat(num);
@@ -18,10 +19,12 @@ async function smartFetch(url) {
 
     // Fallback: use CORS proxy
     const proxied = CORS_PROXY + encodeURIComponent(url);
-    return fetch(proxied);
-}
+    const proxyRes = await fetch(proxied);
+    if (!proxyRes.ok) throw new Error('Proxy blocked or failing');
 
-// ── Fetch crypto from CoinGecko (no API key needed) ──────────────────
+    // Some proxies wrap json in .contents, corsproxy.io returns direct
+    return proxyRes;
+}
 async function fetchCrypto() {
     try {
         const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true';

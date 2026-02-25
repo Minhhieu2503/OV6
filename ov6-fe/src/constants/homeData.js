@@ -1,9 +1,9 @@
-import { Shield, Target, Brain } from 'lucide-react';
+import { LineChart, Briefcase, Target } from 'lucide-react';
 
 export const HOME_FEATURES = [
-  { icon: Shield, title: 'Kỷ luật giao dịch', desc: 'Tuân thủ kế hoạch và nguyên tắc giao dịch nghiêm ngặt' },
-  { icon: Target, title: 'Quản lý vốn', desc: 'Bảo vệ tài khoản với risk/reward hợp lý mọi lệnh' },
-  { icon: Brain, title: 'Tâm lý trading', desc: 'Kiểm soát cảm xúc và giữ vững tâm lý trong mọi tình huống' }
+  { icon: LineChart, title: 'Kỷ luật giao dịch', desc: 'Tuân thủ kế hoạch và nguyên tắc giao dịch nghiêm ngặt' },
+  { icon: Briefcase, title: 'Quản lý vốn', desc: 'Bảo vệ tài khoản với risk/reward hợp lý mọi lệnh' },
+  { icon: Target, title: 'Tâm lý trading', desc: 'Kiểm soát cảm xúc và giữ vững tâm lý trong mọi tình huống' }
 ];
 
 export const HOME_STATS = [
