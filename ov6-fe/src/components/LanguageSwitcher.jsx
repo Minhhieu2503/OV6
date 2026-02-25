@@ -13,11 +13,11 @@ const LanguageSwitcher = () => {
     return (
         <button
             onClick={toggleLanguage}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-slate-800/50 transition-all duration-300"
+            className="flex items-center gap-1.5 px-2 py-1 rounded-md text-sm font-medium text-[#EAEAEA]/80 hover:text-[#F5F5F5] hover:bg-white/5 transition-all duration-300"
             title="Switch Language"
         >
-            <Globe className="w-4 h-4" />
-            <span>{i18n.language === 'en' ? 'EN' : 'VI'}</span>
+            <Globe className="w-4 h-4" strokeWidth={1} />
+            <span className="text-[13px] uppercase tracking-wider">{i18n.language === 'en' ? 'EN' : 'VI'}</span>
         </button>
     );
 };
